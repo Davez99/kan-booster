@@ -1,5 +1,9 @@
 const modal = document.getElementById("card-form-modal");
 
+document.addEventListener("DOMContentLoaded", () => {
+  loadCards();
+});
+
 // Seleciona todos os elementos com a classe '.kanban-card' e adiciona eventos a cada um deles
 document.querySelectorAll(".kanban-card").forEach((card) => {
   // Evento disparado quando começa a arrastar um card
@@ -67,53 +71,6 @@ function FechaModal() {
   actionButton.onclick = AdicionaCard;
 }
 
-function AdicionaCard() {
-  debugger;
-  const title = document.getElementById("title").value;
-  const assignee = document.getElementById("assignee").value;
-  const priority = document.getElementById("priority").value;
-  const description = document.getElementById("description").value;
-  const descricaoPrioridade = ChamaPrioridade(priority);
-  // Cria um novo card
-  const newCard = document.createElement("div");
-  newCard.className = "kanban-card";
-  newCard.draggable = true;
-  newCard.setAttribute("onclick", "AbreModalCard(this)");
-  newCard.innerHTML = `
-        <div class="badge ${priority}">
-            <span>${descricaoPrioridade} Prioridade </span>
-        </div>
-        <p class="card-title">${title}</p>
-        <p class="card-description">${description}</p>
-        <div class="card-infos">
-            <div class="card-icons">
-                <p><i class="fa-regular fa-comment"></i> 0</p>
-                <p><i class="fa-solid fa-paperclip"></i> 0</p>
-            </div>
-            <div class="user">
-                <span>${assignee}</span>
-            </div>
-        </div>
-    `;
-
-  // Atribui os eventos dragstart e dragend
-  newCard.addEventListener("dragstart", (e) => {
-    e.currentTarget.classList.add("dragging");
-  });
-  newCard.addEventListener("dragend", (e) => {
-    e.currentTarget.classList.remove("dragging");
-  });
-
-  // Adiciona o novo card à coluna inicial
-  const column = document.querySelector(
-    ".kanban-column[data-id='1'] .kanban-cards"
-  );
-  column.appendChild(newCard);
-
-  // Fecha o modal
-  FechaModal();
-}
-
 function AbreModalCard(cardElement) {
   const actionButton = document.getElementById("action-button");
 
@@ -148,37 +105,88 @@ function AbreModalCard(cardElement) {
   modal.classList.remove("hidden");
 }
 
-function EditaCard(cardElement) {
+async function AdicionaCard() {
+    debugger
   const title = document.getElementById("title").value;
   const assignee = document.getElementById("assignee").value;
   const priority = document.getElementById("priority").value;
   const description = document.getElementById("description").value;
-  const descricaoPrioridade = ChamaPrioridade(priority);
 
-  // Atualiza os dados do card clicado
-  cardElement.querySelector(".card-title").innerText = title;
-  cardElement.querySelector(".card-description").innerText = description;
+  try {
+    const newCardData = {
+      title,
+      description,
+      priority,
+      assignee,
+      columnId: 1, // Ajuste conforme necessário
+    };
 
-  const badge = cardElement.querySelector(".badge");
-  badge.className = `badge ${priority}`; // Atualiza a classe da prioridade
-  badge.querySelector("span").innerText = descricaoPrioridade + " prioridade";
+    const newCard = await apiRequest(
+      "http://localhost:3000/cards",
+      "POST",
+      newCardData
+    );
+    const column = document.querySelector(
+      ".kanban-column[data-id='1'] .kanban-cards"
+    );
+    const cardElement = createCardElement({ ...newCardData, id: newCard.id });
+    column.appendChild(cardElement);
 
-  const user = cardElement.querySelector(".user span");
-  if (user) {
-    user.innerText = assignee;
+    FechaModal();
+  } catch (error) {
+    console.error("Erro ao adicionar o card:", error);
   }
+}
 
-  // Reatribui os eventos dragstart e dragend
-  cardElement.draggable = true;
-  cardElement.addEventListener("dragstart", (e) => {
-    e.currentTarget.classList.add("dragging");
-  });
-  cardElement.addEventListener("dragend", (e) => {
-    e.currentTarget.classList.remove("dragging");
-  });
+async function EditaCard(cardElement) {
+  const id = cardElement.dataset.id;
+  const title = document.getElementById("title").value;
+  const assignee = document.getElementById("assignee").value;
+  const priority = document.getElementById("priority").value;
+  const description = document.getElementById("description").value;
 
-  // Fecha o modal
-  FechaModal();
+  try {
+    const updatedCardData = {
+      title,
+      description,
+      priority,
+      assignee,
+      columnId: 1,
+    }; // Ajuste conforme necessário
+
+    await apiRequest(
+      `http://localhost:3000/cards/${id}`,
+      "PUT",
+      updatedCardData
+    );
+
+    cardElement.querySelector(".card-title").innerText = title;
+    cardElement.querySelector(".card-description").innerText = description;
+
+    const badge = cardElement.querySelector(".badge");
+    badge.className = `badge ${priority}`;
+    badge.querySelector("span").innerText = `${ChamaPrioridade(
+      priority
+    )} Prioridade`;
+
+    const user = cardElement.querySelector(".user span");
+    if (user) user.innerText = assignee;
+
+    FechaModal();
+  } catch (error) {
+    console.error("Erro ao editar o card:", error);
+  }
+}
+
+async function DeletaCard(cardElement) {
+  const id = cardElement.dataset.id;
+
+  try {
+    await apiRequest(`http://localhost:3000/cards/${id}`, "DELETE");
+    cardElement.remove();
+  } catch (error) {
+    console.error("Erro ao deletar o card:", error);
+  }
 }
 
 function ChamaPrioridade(priority) {
@@ -191,4 +199,77 @@ function ChamaPrioridade(priority) {
       ? "Alta"
       : "";
   return priorityDescription;
+}
+
+async function apiRequest(url, method = "GET", body = null) {
+  const options = {
+    method,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  if (body) {
+    options.body = JSON.stringify(body);
+  }
+
+  try {
+    const response = await fetch(url, options);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json();
+  } catch (error) {
+    console.error("Erro na requisição:", error);
+    throw error;
+  }
+}
+
+async function loadCards() {
+  try {
+    const cards = await apiRequest("http://localhost:3000/cards");
+    const column = document.querySelector(
+      ".kanban-column[data-id='1'] .kanban-cards"
+    );
+
+    cards.forEach((card) => {
+      const newCard = createCardElement(card);
+      column.appendChild(newCard);
+    });
+  } catch (error) {
+    console.error("Erro ao carregar os cards:", error);
+  }
+}
+
+function createCardElement(card) {
+  const newCard = document.createElement("div");
+  newCard.className = "kanban-card";
+  newCard.draggable = true;
+  newCard.setAttribute("onclick", "AbreModalCard(this)");
+  newCard.dataset.id = card.id;
+  newCard.innerHTML = `
+          <div class="badge ${card.priority}">
+              <span>${ChamaPrioridade(card.priority)} Prioridade</span>
+          </div>
+          <p class="card-title">${card.title}</p>
+          <p class="card-description">${card.description || ""}</p>
+          <div class="card-infos">
+              <div class="card-icons">
+                  <p><i class="fa-regular fa-comment"></i> 0</p>
+                  <p><i class="fa-solid fa-paperclip"></i> 0</p>
+              </div>
+              <div class="user">
+                  <span>${card.assignee || ""}</span>
+              </div>
+          </div>
+      `;
+
+  newCard.addEventListener("dragstart", (e) => {
+    e.currentTarget.classList.add("dragging");
+  });
+  newCard.addEventListener("dragend", (e) => {
+    e.currentTarget.classList.remove("dragging");
+  });
+
+  return newCard;
 }
