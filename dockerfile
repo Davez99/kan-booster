@@ -1,20 +1,20 @@
-# Usando a imagem oficial do Node.js
+# Usando imagem oficial do Node.js
 FROM node:16
 
-# Definindo o diretório de trabalho dentro do container
+# Definindo o diretório de trabalho no container
 WORKDIR /usr/src/app
 
-# Copiando os arquivos necessários para o container
-COPY package*.json ./
+# Copiando o arquivo de dependências
+COPY requirements.txt ./
 
-# Instalando dependências
-RUN npm install
+# Instalando dependências listadas no requirements.txt
+RUN xargs npm install < requirements.txt
 
-# Copiando o restante dos arquivos do projeto para o container
+# Copiando o restante dos arquivos do projeto
 COPY . .
 
-# Expondo a porta onde o backend será executado
+# Expor a porta usada pela aplicação
 EXPOSE 3000
 
-# Comando para iniciar o backend
+# Comando para iniciar o servidor
 CMD ["npm", "run", "dev"]
