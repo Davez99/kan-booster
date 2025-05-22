@@ -1,0 +1,6 @@
+express 
+slite 
+slite3 
+builder-parser 
+cors 
+nodemon

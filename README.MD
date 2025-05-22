@@ -31,19 +31,23 @@ Certifique-se de que você possui as seguintes ferramentas instaladas em sua má
 ---
 ## Estrutura
 
-|-- src/
-|   |-- css/
-|   |   |-- styles.css
-|   |-- img/
-|   |-- js/
-|   |   |-- script.js
-|-- app.js
-|-- dbContext.js
-|-- index.html
-|-- kanban.db
-|-- .gitignore
-|-- package.json
-|-- README.md
+kan-booster/
+├── src/
+│   ├── css/
+│   │   └── styles.css
+│   ├── img/
+│   ├── js/
+│   │   ├── script.js
+│   │   └── app.js
+│   └── dbContext.js
+├── kanban.db
+├── index.html
+├── package.json
+├── package-lock.json
+├── Dockerfile
+├── .gitignore
+└── README.md
+
 
 
 ---
