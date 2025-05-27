@@ -32,26 +32,6 @@ Certifique-se de que você possui as seguintes ferramentas instaladas em sua má
 
 - npm install express sqlite sqlite3 body-parser
 - npm run dev
----
-## Estrutura
-
-kan-booster/
-.
-├── src/
-│   ├── css/
-│   │   └── styles.css
-│   ├── img/
-│   ├── js/
-│   │   ├── script.js
-│   │   └── app.js
-│   └── dbContext.js
-├── kanban.db
-├── index.html
-├── package.json
-├── package-lock.json
-├── Dockerfile
-├── .gitignore
-└── README.md
 
 --- 
 ## Passos para utilizar o Docker:
@@ -65,7 +45,7 @@ kan-booster/
 
 3. **Acesse a aplicação:**
  - Backend: http://localhost:3000
- 
+
 
 
 ---

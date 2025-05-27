@@ -63,6 +63,25 @@ app.put("/cards/:id", async (req, res) => {
   }
 });
 
+// Rota para editar a coluna de um card
+app.put("/cards/column/:id", async (req, res) => {
+  const { columnId } = req.body;
+  const db = await openDb();
+  try {
+    const result = await db.run(
+      `
+      UPDATE cards
+      SET  columnId = ?
+      WHERE id = ?
+    `,
+      [ columnId, req.params.id]
+    );
+    res.json({ updated: result.changes });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // Rota para excluir um card
 app.delete("/cards/:id", async (req, res) => {
   const db = await openDb();
@@ -75,6 +94,43 @@ app.delete("/cards/:id", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+// Rota para buscar todos os cards
+app.get("/column", async (req, res) => {
+  const db = await openDb();
+  try {
+    const cards = await db.all("SELECT * FROM kanban");
+    res.json(cards);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Adicionar uma nova coluna
+app.post("/kanban", async (req, res) => {
+  const { title } = req.body;
+  const db = await openDb();
+  const result = await db.run("INSERT INTO kanban (title) VALUES (?)", [title]);
+  res.json({ id: result.lastID });
+});
+
+// Atualizar o título de uma coluna
+app.put("/kanban/:id", async (req, res) => {
+  const { id } = req.params;
+  const { title } = req.body;
+  const db = await openDb();
+  await db.run("UPDATE kanban SET title = ? WHERE id = ?", [title, id]);
+  res.sendStatus(200);
+});
+
+// Excluir uma coluna
+app.delete("/kanban/:id", async (req, res) => {
+  const { id } = req.params;
+  const db = await openDb();
+  await db.run("DELETE FROM kanban WHERE id = ?", [id]);
+  res.sendStatus(200);
+});
+
 
 // Inicia o servidor
 app.listen(PORT, () => {

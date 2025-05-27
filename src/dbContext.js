@@ -22,4 +22,15 @@ export async function initializeDb() {
       columnId INTEGER
     )
   `);
+
+  await db.exec(`
+    CREATE TABLE IF NOT EXISTS kanban (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      title TEXT
+    )
+  `);
+
+  // Forçando o `AUTOINCREMENT` para começar em 2 para a tabela `kanban`
+  await db.run(`INSERT INTO kanban (id, title) VALUES (1, 'dummy')`);
+  await db.run(`DELETE FROM kanban WHERE id = 1`);
 }
