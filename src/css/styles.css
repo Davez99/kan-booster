@@ -1,275 +1,269 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 .hidden {
-    display: none !important;
-}
-
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10;
-}
-
-.modal-content {
-    background-color: #fff;
-    padding: 24px;
-    border-radius: 12px;
-    width: 350px;
-    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
-}
-
-.modal-content h2 {
-    margin-bottom: 16px;
-    font-size: 20px;
-    font-weight: 600;
-    color: #374151;
-}
-
-.modal-content label {
-    font-weight: 500;
-    font-size: 14px;
-    color: #4b5563;
-    display: block;
-    margin-top: 12px;
-}
-
-.modal-content input, 
-.modal-content textarea, 
-.modal-content select {
-    width: 100%;
-    margin-top: 8px;
-    padding: 10px;
-    border: 1px solid #d1d5db;
-    border-radius: 8px;
-    font-size: 14px;
-}
-
-.modal-content button {
-    margin-top: 16px;
-    padding: 10px 16px;
-    border: none;
-    border-radius: 8px;
-    font-size: 14px;
-    cursor: pointer;
-    font-weight: 600;
-}
-
-* {
-    font-family: 'Poppins', sans-serif;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(90deg, #a5b4fc, #93c5fd);
+  display: none !important;
 }
 
 .kanban {
-    display: flex;
-    gap: 14px;
-    padding: 24px;
-    width: 100%;
-    height: 90vh;
-    overflow-x: auto; /* Permite rolagem horizontal se necessário */
-    overflow-y: hidden;
+  display: flex; /* Colunas lado a lado */
+  gap: 14px;
+  padding: 24px;
+  width: 100%;
+  height: 90vh;
+  overflow-x: auto; /* Scroll horizontal */
+  overflow-y: hidden; /* Desativa scroll vertical no contêiner principal */
+  white-space: nowrap; /* Garante que os elementos fiquem em linha */
 }
 
-
 .kanban-column {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-    height: 100%;
-    overflow-y: auto;
-    background-color: #f6f8fc;
-    border-radius: 12px;
-    box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
-    padding: 12px;
-    overflow: hidden;
-    position: relative;
-    width: 300px; /* Largura fixa */
-    min-height: 90%; /* Altura mínima para preenchimento */
-    max-height: 90%; /* Limita a altura */
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  background-color: #f6f8fc;
+  border-radius: 12px;
+  box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+  padding: 12px;
+  position: relative;
+  width: 300px; /* Largura fixa */
+  min-height: 90%; /* Altura mínima para preenchimento */
+  max-height: 90%; /* Limita a altura */
+  flex-shrink: 0; /* Impede que a largura diminua */
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 24px;
+  border-radius: 12px;
+  width: 350px;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content h2 {
+  margin-bottom: 16px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.modal-content label {
+  font-weight: 500;
+  font-size: 14px;
+  color: #4b5563;
+  display: block;
+  margin-top: 12px;
+}
+
+.modal-content input,
+.modal-content textarea,
+.modal-content select {
+  width: 100%;
+  margin-top: 8px;
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  gap: 10px; /* Espaçamento entre os botões */
+  margin-top: 16px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+* {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(90deg, #a5b4fc, #93c5fd);
 }
 
 .kanban-column::after {
-    position: absolute;
-    content: '';
-    height: 5px;
-    width: 100%;
-    top: 0;
-    left: 0;
+  position: absolute;
+  content: "";
+  height: 5px;
+  width: 100%;
+  top: 0;
+  left: 0;
 }
 
 .edit-column-btn {
-    background-color: #ffc400;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 12px;
-    padding: 6px 10px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+  background-color: #ffc400;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .edit-column-btn:hover {
-    background-color: #ffc400;
+  background-color: #ffc400;
 }
 
 .delete-column-btn {
-    background-color: #ef4444;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 12px;
-    padding: 6px 10px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .delete-column-btn:hover {
-    background-color: #dc2626;
+  background-color: #dc2626;
 }
 
 .add-card {
-    background-color: #4f46e5;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 12px;
-    padding: 6px 10px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+  background-color: #4f46e5;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .add-card:hover {
-    background-color: #4338ca;
+  background-color: #4338ca;
 }
 
 .kanban-title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
 }
 
 .kanban-title h2 {
-    font-size: 18px;
-    color: #1f2937;
-    font-weight: 600;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.kanban-title h2 {
-    font-size: 18px;
-    color: #4b5563;
-    font-weight: 600;
+  font-size: 18px;
+  color: #1f2937;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .add-card {
-    color: #4b5563;
-    font-size: 20px;
-    background-color: transparent;
-    cursor: pointer;
-    border: none;
+  color: #4b5563;
+  font-size: 20px;
+  background-color: transparent;
+  cursor: pointer;
+  border: none;
 }
 
 .kanban-cards {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    height: 100%;
-    overflow-y: auto;
-    overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .kanban-card {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    background-color: #ffffff;
-    border-radius: 14px;
-    padding: 10px;
-    box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background-color: #ffffff;
+  border-radius: 14px;
+  padding: 10px;
+  box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 }
 
 .badge {
-    color: #ffffff;
-    width: fit-content;
-    font-size: 12px;
-    padding: 4px 8px;
-    border-radius: 12px;
+  color: #ffffff;
+  width: fit-content;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 12px;
 }
 
-.badge.alta {
-    background-color: #d573b6;
+.badge.high {
+  background-color: #d573b6;
 }
 
 .badge.medium {
-    background-color: #fea065;
+  background-color: #fea065;
 }
 
 .badge.low {
-    background-color: #92a5fb;
+  background-color: #92a5fb;
 }
 
 .card-infos {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .card-icons {
-    display: flex;
-    gap: 18px;
+  display: flex;
+  gap: 18px;
 }
 
 .card-icons i {
-    color: #a8a8aa;
+  color: #a8a8aa;
 }
 
 .user img {
-    width: 42px;
-    height: 42px;
-    border-radius: 100%;
-    object-fit: cover;
+  width: 42px;
+  height: 42px;
+  border-radius: 100%;
+  object-fit: cover;
 }
 
 .dragging {
-    opacity: 0.5;
+  opacity: 0.5;
 }
 
 .cards-hover {
-    background-color: #eaeffa;
-    border-radius: 8px;
+  background-color: #eaeffa;
+  border-radius: 8px;
 }
 
 *::-webkit-scrollbar {
-    width: 8px;
+  width: 8px;
 }
 
 *::-webkit-scrollbar-track {
-    background-color: #eaeffa;
-    border-radius: 8px;
+  background-color: #eaeffa;
+  border-radius: 8px;
 }
 
 *::-webkit-scrollbar-thumb {
-    background-color: #b7d3fb;
-    border-radius: 20px;
+  background-color: #b7d3fb;
+  border-radius: 20px;
 }
-

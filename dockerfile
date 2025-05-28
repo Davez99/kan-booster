@@ -2,7 +2,7 @@
 FROM node:16
 
 # Definindo o diretório de trabalho no container
-WORKDIR /usr/src/app
+WORKDIR /src/app
 
 # Copiando o arquivo de dependências
 COPY requirements.txt ./

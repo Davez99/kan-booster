@@ -46,16 +46,16 @@ app.post("/cards", async (req, res) => {
 
 // Rota para editar um card
 app.put("/cards/:id", async (req, res) => {
-  const { title, description, priority, assignee, columnId } = req.body;
+  const { title, description, priority, assignee } = req.body;
   const db = await openDb();
   try {
     const result = await db.run(
       `
       UPDATE cards
-      SET title = ?, description = ?, priority = ?, assignee = ?, columnId = ?
+      SET title = ?, description = ?, priority = ?, assignee = ?
       WHERE id = ?
     `,
-      [title, description, priority, assignee, columnId, req.params.id]
+      [title, description, priority, assignee, req.params.id]
     );
     res.json({ updated: result.changes });
   } catch (err) {

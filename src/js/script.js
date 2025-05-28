@@ -238,8 +238,7 @@ async function EditaCard(cardElement) {
       title,
       description,
       priority,
-      assignee,
-      columnId: 1,
+      assignee
     }; // Ajuste conforme necessário
 
     await apiRequest(`${urlEndPoint}/cards/${id}`, "PUT", updatedCardData);

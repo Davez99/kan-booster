@@ -25,9 +25,10 @@
             placeholder="Digite o título da nova coluna"
             required
           />
-          <button id="add-column-btn">Adicionar Coluna</button>
+          <button id="add-column-btn" class="button">Adicionar Coluna</button>
         </div>
       </div>
+      
       <!-- Modal de adição -->
       <div id="card-form-modal" class="modal hidden">
         <div class="modal-content">
@@ -49,8 +50,8 @@
             <label for="description">Descrição:</label>
             <textarea id="description" name="description"></textarea>
 
-            <button id="action-button" type="button">Salvar</button>
-            <button type="button" id="cancel-button" onclick="FechaModal()">
+            <button id="action-button" class="button" type="button">Salvar</button>
+            <button type="button" id="cancel-button" class="button" onclick="FechaModal()">
               Cancelar
             </button>
           </form>
